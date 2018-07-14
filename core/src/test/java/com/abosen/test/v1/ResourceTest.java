@@ -41,7 +41,7 @@ public class ResourceTest {
 
     @Test
     public void testFilePathResource() throws IOException {
-        Resource resource = new FileSystemResource("/Users/qiubaisen/Documents/spring/core/src/test/resources/file.txt");
+        Resource resource = new FileSystemResource("src/test/resources/file.txt");
         inputStream = resource.getInputStream();
         assertNotNull(inputStream);
     }
