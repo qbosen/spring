@@ -3,7 +3,7 @@ package com.abosen.context.support;
 import com.abosen.beans.factory.support.DefaultBeanFactory;
 import com.abosen.beans.factory.xml.XmlBeanDefinitionReader;
 import com.abosen.context.ApplicationContext;
-import com.abosen.test.v1.Resource;
+import com.abosen.core.io.Resource;
 import com.abosen.utils.ClassUtils;
 
 /**

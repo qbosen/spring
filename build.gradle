@@ -1,4 +1,14 @@
 group 'com.abosen'
+apply plugin: 'java'
+
+
+dependencies {
+    compile project(':beans')
+    compile project(':core')
+    compile project(':context')
+    compile 'org.projectlombok:lombok:1.16.22'
+    testCompile 'junit:junit:4.11'
+}
 
 // 所有子项目的通用配置
 subprojects {
@@ -35,12 +45,21 @@ subprojects {
 //        all*.exclude group: 'commons-httpclient'
 //        all*.exclude group: 'commons-logging'
 //        all*.exclude group: 'commons-beanutils', module: 'commons-beanutils'
+        all*.transitive = false
+
     }
 
     dependencies {
         // 通用依赖
         compile(
-                'org.projectlombok:lombok:1.16.22'
+                'org.projectlombok:lombok:1.16.22',
+                group: 'log4j', name: 'log4j', version: '1.2.17',
+                'commons-logging:commons-logging:1.2',
+        )
+
+        // 测试依赖
+        testCompile(
+                'junit:junit:4.11'
         )
 
         // 依赖maven中不存在的jar
@@ -49,9 +68,6 @@ subprojects {
         ext.jarTree += fileTree(dir: rootProjectLibs, include: '**/*.jar')
 
         compile jarTree
-
-        // 测试依赖
-        testCompile("junit:junit:4.11")
     }
 
     // 显示当前项目下所有用于 compile 的 jar.
@@ -59,3 +75,5 @@ subprojects {
         configurations.compile.each { File file -> println file.name }
     }
 }
+
+

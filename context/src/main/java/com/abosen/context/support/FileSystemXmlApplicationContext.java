@@ -1,8 +1,7 @@
 package com.abosen.context.support;
 
-import com.abosen.test.v1.ClassPathResource;
-import com.abosen.test.v1.FileSystemResource;
-import com.abosen.test.v1.Resource;
+import com.abosen.core.io.FileSystemResource;
+import com.abosen.core.io.Resource;
 
 /**
  * @author qiubaisen

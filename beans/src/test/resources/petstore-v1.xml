@@ -1,8 +1,0 @@
-<beans>
-    <bean id="petstore"
-          class="com.abosen.service.v1.PetStoreService">
-    </bean>
-    <bean id="invalidBean"
-          class="xxx.xxxxx">
-    </bean>
-</beans>

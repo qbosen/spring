@@ -1,8 +1,0 @@
-<beans>
-    <bean id="fruitService"
-          class="com.abosen.service.v1.FruitService">
-    </bean>
-    <bean id="invalidBean"
-          class="xxx.xxxxx">
-    </bean>
-</beans>
