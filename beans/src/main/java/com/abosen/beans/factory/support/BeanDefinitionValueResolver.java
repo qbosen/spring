@@ -1,5 +1,6 @@
 package com.abosen.beans.factory.support;
 
+import com.abosen.beans.factory.BeanFactory;
 import com.abosen.beans.factory.config.RuntimeBeanReference;
 import com.abosen.beans.factory.config.TypedStringValue;
 
@@ -8,9 +9,9 @@ import com.abosen.beans.factory.config.TypedStringValue;
  * @date 2018/7/15
  */
 public class BeanDefinitionValueResolver {
-    private final DefaultBeanFactory factory;
+    private final BeanFactory factory;
 
-    public BeanDefinitionValueResolver(DefaultBeanFactory factory) {
+    public BeanDefinitionValueResolver(BeanFactory factory) {
         this.factory = factory;
     }
 

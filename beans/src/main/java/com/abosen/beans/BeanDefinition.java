@@ -12,6 +12,8 @@ public interface BeanDefinition {
     String SCOPE_PROTOTYPE = "prototype";
     String SCOPE_DEFAULT = "";
 
+    String getId();
+
     String getBeanClassName();
 
     void setBeanClassName(String beanClassName);
@@ -26,4 +28,7 @@ public interface BeanDefinition {
 
     List<PropertyValue> getPropertyValues();
 
+    ConstructorArgument getConstructorArgument();
+
+    boolean hasConstructorArgument();
 }
