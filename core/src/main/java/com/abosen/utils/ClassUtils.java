@@ -98,4 +98,9 @@ public abstract class ClassUtils {
         Assert.notNull(className, "Class name must not be null");
         return className.replace(PACKAGE_SEPARATOR, PATH_SEPARATOR);
     }
+
+    public static String convertResourcePathToClassName(String packagePath) {
+        Assert.notNull(packagePath, "Package path name must not be null");
+        return packagePath.replace(PATH_SEPARATOR, PACKAGE_SEPARATOR);
+    }
 }
