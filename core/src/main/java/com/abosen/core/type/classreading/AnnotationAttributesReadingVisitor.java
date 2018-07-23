@@ -1,6 +1,7 @@
 package com.abosen.core.type.classreading;
 
 import com.abosen.core.annotation.AnnotationAttributes;
+import com.abosen.core.type.AnnotationMetadata;
 import org.springframework.asm.AnnotationVisitor;
 import org.springframework.asm.SpringAsmInfo;
 

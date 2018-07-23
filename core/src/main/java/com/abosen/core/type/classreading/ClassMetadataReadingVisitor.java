@@ -1,8 +1,7 @@
 package com.abosen.core.type.classreading;
 
+import com.abosen.core.type.ClassMetadata;
 import com.abosen.utils.ClassUtils;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.asm.Opcodes;
 import org.springframework.asm.SpringAsmInfo;
@@ -12,9 +11,7 @@ import org.springframework.asm.SpringAsmInfo;
  * @date 2018/7/23
  */
 
-@Getter
-@Setter
-public class ClassMetadataReadingVisitor extends ClassVisitor {
+public class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata {
 
     private String className;
 
@@ -26,7 +23,7 @@ public class ClassMetadataReadingVisitor extends ClassVisitor {
 
     private String superClassName;
 
-    private String[] interfaces;
+    private String[] interfaceNames;
 
     public ClassMetadataReadingVisitor() {
         super(SpringAsmInfo.ASM_VERSION);
@@ -41,9 +38,45 @@ public class ClassMetadataReadingVisitor extends ClassVisitor {
         if (superName != null) {
             this.superClassName = ClassUtils.convertResourcePathToClassName(superName);
         }
-        this.interfaces = new String[interfaces.length];
+        this.interfaceNames = new String[interfaces.length];
         for (int i = 0; i < interfaces.length; i++) {
-            this.interfaces[i] = ClassUtils.convertResourcePathToClassName(interfaces[i]);
+            this.interfaceNames[i] = ClassUtils.convertResourcePathToClassName(interfaces[i]);
         }
+    }
+
+
+    @Override
+    public String getClassName() {
+        return this.className;
+    }
+
+    @Override
+    public boolean isInterface() {
+        return this.isInterface;
+    }
+
+    @Override
+    public boolean isAbstract() {
+        return this.isAbstract;
+    }
+
+    @Override
+    public boolean isFinal() {
+        return this.isFinal;
+    }
+
+    @Override
+    public String getSuperClassName() {
+        return this.superClassName;
+    }
+
+    @Override
+    public String[] getInterfaceNames() {
+        return this.interfaceNames;
+    }
+
+    @Override
+    public boolean hasSuperClass() {
+        return this.superClassName != null;
     }
 }

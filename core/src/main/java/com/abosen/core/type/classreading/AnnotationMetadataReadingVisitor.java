@@ -1,6 +1,7 @@
 package com.abosen.core.type.classreading;
 
 import com.abosen.core.annotation.AnnotationAttributes;
+import com.abosen.core.type.AnnotationMetadata;
 import org.springframework.asm.AnnotationVisitor;
 import org.springframework.asm.Type;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  * @author qiubaisen
  * @date 2018/7/23
  */
-public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisitor {
+public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisitor implements AnnotationMetadata {
 
     // 所有的注解全量名
     private final Set<String> annotationSet = new LinkedHashSet<>(4);
