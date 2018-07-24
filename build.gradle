@@ -43,7 +43,7 @@ allprojects {
 //        all*.exclude group: 'commons-httpclient'
 //        all*.exclude group: 'commons-logging'
 //        all*.exclude group: 'commons-beanutils', module: 'commons-beanutils'
-        all*.transitive = false
+        all*.transitive = true
 
     }
 

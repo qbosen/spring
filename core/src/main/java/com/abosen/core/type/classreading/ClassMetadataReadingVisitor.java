@@ -30,8 +30,8 @@ public class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMe
     }
 
     @Override
-    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        this.className = ClassUtils.convertResourcePathToClassName(name);
+    public void visit(int version, int access, String className, String signature, String superName, String[] interfaces) {
+        this.className = ClassUtils.convertResourcePathToClassName(className);
         this.isInterface = ((access & Opcodes.ACC_INTERFACE) != 0);
         this.isAbstract = ((access & Opcodes.ACC_ABSTRACT) != 0);
         this.isFinal = ((access & Opcodes.ACC_FINAL) != 0);

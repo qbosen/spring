@@ -14,13 +14,16 @@ import java.util.List;
 public class GenericBeanDefinition implements BeanDefinition {
 
 
-    private final String beanName;
+    private  String beanName;
     private String beanClassName;
     private boolean singleton = true;
     private boolean prototype = false;
     private String scope = SCOPE_DEFAULT;
     private List<PropertyValue> propertyValues = new ArrayList<>();
     private ConstructorArgument constructorArgument = new ConstructorArgument();
+
+    public GenericBeanDefinition() {
+    }
 
     public GenericBeanDefinition(String beanName, String beanClassName) {
         this.beanName = beanName;
@@ -29,7 +32,12 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     @Override
     public String getId() {
-        return beanName;
+        return this.beanName;
+    }
+
+    @Override
+    public void setId(String beanId) {
+        this.beanName = beanId;
     }
 
     @Override

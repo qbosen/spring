@@ -3,7 +3,10 @@ package com.abosen.beans.factory.xml;
 import com.abosen.beans.BeanDefinition;
 import com.abosen.beans.ConstructorArgument;
 import com.abosen.beans.PropertyValue;
+import com.abosen.beans.event.BeanDefinitionReaderEvent;
+import com.abosen.beans.event.EventManager;
 import com.abosen.beans.factory.BeanDefinitionStoreException;
+import com.abosen.beans.factory.annotation.BeanDefinitionScanner;
 import com.abosen.beans.factory.config.RuntimeBeanReference;
 import com.abosen.beans.factory.config.TypedStringValue;
 import com.abosen.beans.factory.support.BeanDefinitionRegistry;
@@ -35,10 +38,13 @@ public class XmlBeanDefinitionReader {
     public static final String NAME_ATTRIBUTE = "name";
     public static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
     public static final String TYPE_ATTRIBUTE = "type";
+    public static final String BEANS_NAMESPACE_URI = "http://www.springframework.org/schema/beans";
+    public static final String CONTEXT_NAMESPACE_URI = "http://www.springframework.org/schema/context";
 
-
+    private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
     private BeanDefinitionRegistry registry;
+    private BeanDefinitionScanner scanner;
 
     private final Log logger = LogFactory.getLog(getClass());
 
@@ -57,14 +63,13 @@ public class XmlBeanDefinitionReader {
             Iterator<Element> iterator = rootElement.elementIterator();
             while (iterator.hasNext()) {
                 Element element = iterator.next();
-                String beanId = element.attributeValue(ID_ATTRIBUTE);
-                String beanClassName = element.attributeValue(CLASS_ATTRIBUTE);
-                String scope = element.attributeValue(SCOPE_ATTRIBUTE);
-                BeanDefinition beanDefinition = new GenericBeanDefinition(beanId, beanClassName);
-                beanDefinition.setScope(scope == null ? BeanDefinition.SCOPE_DEFAULT : scope);
-                parsePropertyElement(element, beanDefinition);
-                parseConstructorArgElements(element, beanDefinition);
-                this.registry.registryBeanDefinition(beanId, beanDefinition);
+                String namespaceURI = element.getNamespaceURI();
+                if (this.isDefaultNamespace(namespaceURI)) {
+                    parseDefaultElement(element);
+                } else if (this.isContextNamespace(namespaceURI)) {
+                    parseComponentElement(element);
+                }
+
             }
             inputStream.close();
         } catch (Exception e) {
@@ -78,6 +83,33 @@ public class XmlBeanDefinitionReader {
                 }
             }
         }
+    }
+
+    private void parseComponentElement(Element element) {
+        String basePackages = element.attributeValue(BASE_PACKAGE_ATTRIBUTE);
+        BeanDefinitionReaderEvent readerEvent = new BeanDefinitionReaderEvent(registry, basePackages);
+        EventManager.publishEvent(readerEvent);
+//        BeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(registry);
+//        scanner.doScan(basePackages);
+    }
+
+    private void parseDefaultElement(Element element) {
+        String beanId = element.attributeValue(ID_ATTRIBUTE);
+        String beanClassName = element.attributeValue(CLASS_ATTRIBUTE);
+        String scope = element.attributeValue(SCOPE_ATTRIBUTE);
+        BeanDefinition beanDefinition = new GenericBeanDefinition(beanId, beanClassName);
+        beanDefinition.setScope(scope == null ? BeanDefinition.SCOPE_DEFAULT : scope);
+        parsePropertyElement(element, beanDefinition);
+        parseConstructorArgElements(element, beanDefinition);
+        this.registry.registryBeanDefinition(beanId, beanDefinition);
+    }
+
+    private boolean isDefaultNamespace(String namespaceURI) {
+        return !StringUtils.hasLength(namespaceURI) || BEANS_NAMESPACE_URI.equals(namespaceURI);
+    }
+
+    private boolean isContextNamespace(String namespaceUri) {
+        return !StringUtils.hasLength(namespaceUri) || CONTEXT_NAMESPACE_URI.equals(namespaceUri);
     }
 
     public void parsePropertyElement(Element element, BeanDefinition beanDefinition) {

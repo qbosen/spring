@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -33,7 +34,7 @@ public class PackageResourceLoader {
         this.classLoader = classLoader;
     }
 
-    public Resource[] getResources(String basePackage) {
+    public Resource[] getResources(String basePackage) throws IOException {
         Assert.notNull(basePackage, "BasePackage must not be null");
         String location = ClassUtils.convertClassNameToResourcePath(basePackage);
         ClassLoader classLoader = getClassLoader();

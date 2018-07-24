@@ -13,6 +13,7 @@ public interface BeanDefinition {
     String SCOPE_DEFAULT = "";
 
     String getId();
+    void setId(String beanId);
 
     String getBeanClassName();
 
